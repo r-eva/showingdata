@@ -172,59 +172,64 @@ export default class App extends Component {
     user: [
       {
         firstName: "Peter",
-        lastName: "Mueller"
-      },
-      {
-        firstName: "Max",
-        lastName: "Musterman"
-      }
-    ],
-    transaction: [
-      {
-        firstName: "Peter",
         lastName: "Mueller",
-        idTransaction: 1,
-        item: [ "Keyboard", "Mouse"],
-        price: [120.00, 49.49]
-      },
-      {
-        firstName: "Peter",
-        lastName: "Mueller",
-        idTransaction: 2,
-        item: [ "Carpet", "Mouse Pad", "Microfiber cloth"],
-        price: [300, 29.50, 7.49]
-      },
-      {
-        firstName: "Peter",
-        lastName: "Mueller",
-        idTransaction: 3,
-        item: ["Monitor"],
-        price: [239.79]
+        transaction: [
+          {
+            userId: 1,
+            idTransaction: 1,
+            item: [ "Keyboard", "Mouse"],
+            price: [120.00, 49.49]
+          },
+          {
+            userId:1,
+            idTransaction: 2,
+            item: [ "Carpet", "Mouse Pad", "Microfiber cloth"],
+            price: [300, 29.50, 7.49]
+          },
+          {
+            userId: 1,
+            idTransaction: 3,
+            item: ["Monitor"],
+            price: [239.79]
+          }
+        ]
       },
       {
         firstName: "Max",
         lastName: "Musterman",
-        idTransaction: 1,
-        item: ["Desk", "Chair"],
-        price: [249.99, 129.99]
-      },
-    ]
+        transaction:[
+          {
+            userId: 2,
+            idTransaction: 1,
+            item: ["Desk", "Chair"],
+            price: [249.99, 129.99]
+          }
+        ]
+      }
+    ],
+    
   }
 
 
   renderTransaction = () => {
-    var jsx = this.state.transaction.map(val => {
-        return (
-          <tr>
-            <td>{val.firstName}</td>
-            <td>{val.lastName}</td>
-            <td>{val.id}</td>
-            <td>{val.item}</td>
-            <td>{val.price}</td>
-          </tr>
-        )
-    })
-    return jsx
+    var result = []
+    for (let i = 0; i < this.state.user.length; i++) {
+      for (let j = 0; j < this.state.user[i].transaction.length; j++) {
+              var jsx = this.state.user[i].transaction[j].item.map((val, idx) => {
+                return (
+                  <tr>
+                    <td>{this.state.user[i].firstName}</td>
+                    <td>{this.state.user[i].lastName}</td>
+                    <td>{this.state.user[i].transaction[j].idTransaction}</td>
+                    <td>{val}</td>
+                    <td>{this.state.user[i].transaction[j].price[idx]}</td>
+                  </tr>
+                ) 
+              })
+              result.push(jsx) 
+      }
+    }
+    return result
   }
 
   render = () => {
@@ -241,6 +246,7 @@ export default class App extends Component {
               </tr>
           </thead>
           <tbody>
+              <tr></tr>
               {this.renderTransaction()}
           </tbody>
         </table>
